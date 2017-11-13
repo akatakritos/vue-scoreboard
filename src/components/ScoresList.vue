@@ -20,11 +20,11 @@
     import VueTypes from 'vue-types';
 
     const Score = VueTypes.shape({
-        highScoreId: VueTypes.integer.required,
-        position: VueTypes.integer.required,
-        player: VueTypes.string.required,
-        score: VueTypes.integer.required,
-        profilePic: VueTypes.string.required
+        highScoreId: VueTypes.integer.isRequired,
+        position: VueTypes.integer.isRequired,
+        player: VueTypes.string.isRequired,
+        score: VueTypes.integer.isRequired,
+        profilePic: VueTypes.string.isRequired
     }).loose;
 
     export default {
@@ -34,7 +34,7 @@
         },
 
         props: {
-            scores: VueTypes.arrayOf(Score).required,
+            scores: VueTypes.arrayOf(Score).isRequired,
         },
 
         methods: {

@@ -10,13 +10,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" routerlink="/scoreboard" href="/scoreboard">Scoreboard</a>
+                    <router-link :to="{name:'scoreboard'}" class="navbar-brand">Scoreboard</router-link>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a href="/admin/games" routerlink="/admin/games">Games Admin</a>
-                        </li>
+                        <router-link :to="{name:'games'}" tag="li" active-class="active">
+                            <a>Games Admin</a>
+                        </router-link>
                         <li>
                             <a href="/admin/scores" routerlink="/admin/scores">Scores Admin</a>
                         </li>

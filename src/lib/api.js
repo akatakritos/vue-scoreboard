@@ -32,4 +32,20 @@ export default {
         });
     },
 
+    addGame(game) {
+        return fetch('/api/games', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(game)
+        });
+    },
+
+    deleteGame(gameId) {
+        return fetch('/api/games/' + gameId, {
+            method: 'DELETE',
+        });
+    },
+
 };
