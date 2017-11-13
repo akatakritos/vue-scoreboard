@@ -2,13 +2,15 @@
     <form class="form-inline">
         <div class="form-group">
             <label for="player">Mainframe Username</label>
-            <input class="form-control ng-pristine ng-invalid ng-touched" id="player" v-model="username">
+            <input type="text" class="form-control" id="player" name="player"
+                v-model="username" v-validate="{required:true}">
         </div>
         <div class="form-group">
             <label for="score">Score</label>
-            <input class="form-control" id="score" v-model="score">
+            <input type="text" class="form-control" id="score" name="score"
+                v-model="score" v-validate="{required: true, numeric: true }" />
         </div>
-        <button class="btn btn-primary" :disabled="!valid" @click="submitScore">Record Score</button>
+        <button class="btn btn-primary" :disabled="errors.any()" @click="submitScore">Record Score</button>
     </form>
 </template>
 
@@ -32,17 +34,6 @@
         },
 
         computed: {
-            usernameValid() {
-                return Boolean(this.username);
-            },
-
-            scoreValid() {
-                return /^\d+$/.test(this.score);
-            },
-
-            valid() {
-                return this.usernameValid && this.scoreValid;
-            }
 
         },
     };
