@@ -1,7 +1,7 @@
 <template>
     <table class="table table-striped table-bordered">
         <tbody>
-            <tr v-for="(score, index) in scores" :key="score.highScoreId">
+            <tr v-for="score in scores" :key="score.highScoreId">
                 <td>{{ score.position }}</td>
                 <td>
                     <img :src="score.profilePic" class="profile-pic img-circle"/>
@@ -12,6 +12,9 @@
                     {{ score.score | commas }}
                 </td>
             </tr>
+            <p v-if="scores.length === 0" class="well">
+                No Scores for this Game
+            </p>
         </tbody>
     </table>
 </template>
@@ -58,6 +61,10 @@
 
     .profile-pic {
         width: 100px;
+    }
+
+    .well {
+        margin: 16px;
     }
 
 </style>

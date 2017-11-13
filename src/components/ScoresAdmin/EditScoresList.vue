@@ -1,11 +1,13 @@
 <template>
     <table class="table table-bordered table-striped vr_1">
-        <tbody>
+        <thead v-if="scores.length">
             <tr>
                 <th>Player</th>
                 <th class="number-column">Score</th>
                 <th></th>
             </tr>
+        </thead>
+        <tbody>
             <tr v-for="score in scores" :key="score.highScoreId">
                 <td>{{ score.player }}</td>
                 <td class="number-column">{{ score.score | commas }}</td>
@@ -13,6 +15,9 @@
                     <confirmation-button @confirmed="deleteScore(score)" />
                 </td>
             </tr>
+            <p v-if="scores.length === 0" class="well">
+                    No Scores for this Game
+            </p>
         </tbody>
     </table>
 </template>
@@ -57,6 +62,9 @@
 <style scoped>
     .number-column {
         text-align: right;
+    }
 
+    .well {
+        margin: 16px;
     }
 </style>
