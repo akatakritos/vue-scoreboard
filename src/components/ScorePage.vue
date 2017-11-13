@@ -16,11 +16,13 @@
             <router-link :to="{ name: 'scoreboard', query: { page: this.currentPage - 1, gameId: this.currentGameId }}" class="btn btn-default" v-show="currentPage > 1">Previous</router-link>
             <router-link :to="{ name: 'scoreboard', query: { page: this.currentPage + 1, gameId: this.currentGameId }}" class="btn btn-default" v-show="mightBeMoreScores">Next</router-link>
         </div>
+        <score-entry @score-submitted="onScoreSubmit"/>
     </div>
 </template>
 
 <script>
     import ScoresList from '@/components/ScoresList';
+    import ScoreEntry from '@/components/ScoreEntry';
     import Api from '@/lib/api';
 
     export default {
@@ -33,6 +35,7 @@
 
         components: {
             ScoresList,
+            ScoreEntry,
         },
 
         async mounted() {
@@ -47,13 +50,17 @@
                     return;
                 }
 
-                this.scores = [];
                 this.scores = await Api.getScores(this.currentGameId, this.currentPage);
             },
 
             selectGame(gameId) {
                 this.$router.replace({ query: { gameId, page: this.currentPage } });
             },
+
+            async onScoreSubmit(payload) {
+                await Api.submitScore(this.currentGameId, payload.player, payload.score);
+                this.load();
+            }
         },
 
         watch: {

@@ -17,9 +17,19 @@ export default {
     },
 
     getGames() {
-        return fetch(`api/games`)
+        return fetch(`/api/games`)
             .then(validate)
             .then(r => r.json());
-    }
+    },
+
+    submitScore(gameId, player, score) {
+        return fetch(`/api/game/${gameId}/scores`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ player, score }),
+        });
+    },
 
 };
