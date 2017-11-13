@@ -21,8 +21,8 @@
 </template>
 
 <script>
-    import ScoresList from '@/components/ScoresList';
-    import ScoreEntry from '@/components/ScoreEntry';
+    import ScoresList from './ScoresList';
+    import ScoreEntry from './ScoreEntry';
     import Api from '@/lib/api';
 
     export default {

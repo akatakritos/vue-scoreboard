@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import ScorePage from '@/components/ScorePage';
+import TheScorePage from '@/components/Scores/TheScorePage';
 import TheGamesAdminPage from '@/components/GamesAdmin/TheGamesAdminPage';
 
 Vue.use(Router);
@@ -11,7 +11,7 @@ export default new Router({
         {
             path: '/scoreboard',
             name: 'scoreboard',
-            component: ScorePage
+            component: TheScorePage
         },
         {
             path: '/admin/games',
