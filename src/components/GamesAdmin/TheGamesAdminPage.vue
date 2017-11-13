@@ -10,6 +10,7 @@
     import EditGameList from './EditGameList';
     import GameEntryForm from './GameEntryForm';
     import Api from '@/lib/api';
+    import bus from '@/lib/bus';
 
     export default {
         data() {
@@ -29,14 +30,32 @@
 
         methods: {
             async addGame(game) {
-                await Api.addGame(game);
-                this.rawGames.push(game);
+                const result = await Api.addGame(game);
+
+                this.rawGames.push(result);
+
+                bus.$emit('alert', {
+                    type: 'success',
+                    message: `Added "${game.name}" successfully`
+                });
             },
 
             async deleteGame(game) {
-                await Api.deleteGame(game.gameId);
-                const id = this.rawGames.findIndex(g => g.gameId === game.gameId);
-                this.rawGames.splice(id, 1);
+                try {
+                    await Api.deleteGame(game.gameId);
+                    const id = this.rawGames.findIndex(g => g.gameId === game.gameId);
+                    this.rawGames.splice(id, 1);
+
+                    bus.$emit('alert', {
+                        type: 'success',
+                        message: `Deleted "${game.name}" successfully`
+                    });
+                } catch (err) {
+                    bus.$emit('alert', {
+                        type: 'danger',
+                        message: `Encountered an error deleting the game: ${err.message}`
+                    });
+                }
             }
         },
 

@@ -27,6 +27,7 @@
 
 <script>
     import ErrorBlock from '@/components/shared/ErrorBlock';
+    import bus from '@/lib/bus';
 
     export default {
         data() {
@@ -53,7 +54,13 @@
 
                 this.username = '';
                 this.score = '';
+                this.$validator.reset();
                 this.$refs.player.focus();
+
+                bus.$emit('alert', {
+                    type: 'success',
+                    message: 'Score added successfully',
+                });
             }
         },
 

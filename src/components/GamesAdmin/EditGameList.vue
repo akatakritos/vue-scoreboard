@@ -7,7 +7,6 @@
             </tr>
         </thead>
         <tbody>
-            <!--template bindings={}-->
             <tr v-for="game in games">
                 <td>{{ game.name }}</td>
                 <td>
@@ -52,5 +51,6 @@
     };
 </script>
 
-<style>
+<style scoped>
+
 </style>

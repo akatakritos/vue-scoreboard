@@ -40,6 +40,7 @@
     import ConfirmationButton from '@/components/shared/ConfirmationButton';
     import EditScoresList from './EditScoresList';
     import Api from '@/lib/api';
+    import bus from '@/lib/bus';
 
     export default {
         data() {
@@ -77,12 +78,22 @@
                 const index = this.scores.findIndex(s => s.highScoreId === score.highScoreId);
                 if (index !== -1) {
                     this.scores.splice(index, 1);
+
+                    bus.$emit('alert', {
+                        type: 'success',
+                        message: 'Score deleted'
+                    });
                 }
             },
 
             async deleteAll() {
                 await Api.deleteAllScores(this.currentGameId);
                 this.scores = [];
+
+                bus.$emit('alert', {
+                    type: 'success',
+                    message: 'All scores deleted'
+                });
             }
         },
 

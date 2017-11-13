@@ -40,7 +40,9 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(game)
-        });
+        })
+        .then(validate)
+        .then(r => r.json());
     },
 
     deleteGame(gameId) {

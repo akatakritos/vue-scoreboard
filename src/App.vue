@@ -25,17 +25,22 @@
             </div>
         </nav>
 
-        <div class="container">
+        <div class="container alert-spacer">
             <router-view />
         </div>
+
+        <alert-container />
 
     </div>
 </template>
 
 <script>
+    import AlertContainer from '@/components/Alerting/AlertContainer';
+
     export default {
         name: 'app',
         components: {
+            AlertContainer,
         },
     };
 </script>
