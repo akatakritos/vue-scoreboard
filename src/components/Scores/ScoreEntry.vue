@@ -1,20 +1,33 @@
 <template>
-    <div class="form-inline">
-        <div class="form-group">
-            <label for="player">Mainframe Username</label>
-            <input type="text" class="form-control" id="player" name="player"
-                v-model="username" v-validate="{required:true}">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Add a Score</h2>
         </div>
-        <div class="form-group">
-            <label for="score">Score</label>
-            <input type="text" class="form-control" id="score" name="score"
-                v-model="score" v-validate="{required: true, numeric: true }" />
+
+        <div class="panel-body">
+            <form action="#" @submit="submitScore">
+
+                <div class="form-group" :class="{ 'has-error': errors.has('player') }">
+                    <label class="control-label" for="player">Mainframe Username</label>
+                    <input type="text" class="form-control" id="player" name="player" ref="player" v-model="username" v-validate="{required:true}">
+                    <error-block :has-error="errors.has('player')" :message="errors.first('player')" />
+                </div>
+
+                <div class="form-group" :class="{ 'has-error': errors.has('score') }">
+                    <label class="control-label" for="score">Score</label>
+                    <input type="text" class="form-control" id="score" name="score"  v-model="score" v-validate="{required: true, numeric: true }"
+                    />
+                    <error-block :has-error="errors.has('score')" :message="errors.first('score')" />
+                </div>
+                <button class="btn btn-primary" :disabled="errors.any()" @click.prevent="submitScore">Record Score</button>
+            </form>
         </div>
-        <button class="btn btn-primary" :disabled="errors.any()" @click="submitScore">Record Score</button>
     </div>
 </template>
 
 <script>
+    import ErrorBlock from '@/components/shared/ErrorBlock';
+
     export default {
         data() {
             return {
@@ -23,12 +36,24 @@
             };
         },
 
+        components: {
+            ErrorBlock,
+        },
+
         methods: {
             submitScore() {
+                if (this.errors.any()) {
+                    return;
+                }
+
                 this.$emit('score-submitted', {
                     player: this.username,
                     score: this.score
                 });
+
+                this.username = '';
+                this.score = '';
+                this.$refs.player.focus();
             }
         },
 
@@ -39,4 +64,7 @@
 </script>
 
 <style scoped>
+    form {
+        max-width: 320px;
+    }
 </style>
