@@ -17,9 +17,9 @@
                         <router-link :to="{name:'games'}" tag="li" active-class="active">
                             <a>Games Admin</a>
                         </router-link>
-                        <li>
-                            <a href="/admin/scores" routerlink="/admin/scores">Scores Admin</a>
-                        </li>
+                        <router-link :to="{ name: 'scores-admin' }" tag="li" active-class="active">
+                            <a>Scores Admin</a>
+                        </router-link>
                     </ul>
                 </div>
             </div>

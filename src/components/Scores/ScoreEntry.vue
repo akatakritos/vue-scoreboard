@@ -1,5 +1,5 @@
 <template>
-    <form class="form-inline">
+    <div class="form-inline">
         <div class="form-group">
             <label for="player">Mainframe Username</label>
             <input type="text" class="form-control" id="player" name="player"
@@ -11,7 +11,7 @@
                 v-model="score" v-validate="{required: true, numeric: true }" />
         </div>
         <button class="btn btn-primary" :disabled="errors.any()" @click="submitScore">Record Score</button>
-    </form>
+    </div>
 </template>
 
 <script>

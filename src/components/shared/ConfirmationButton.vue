@@ -1,17 +1,23 @@
 <template>
     <span class="confirmation-button">
-        <button class="btn btn-danger" v-if="!confirming" @click="requestConfirmation">Delete</button>
+        <button class="btn btn-danger" v-if="!confirming" @click="requestConfirmation">{{ caption }}</button>
         <button class="btn btn-danger" v-if="confirming" @click="confirm">Yes, I'm sure</button>
         <button class="btn btn-default" v-if="confirming" @click="cancel">No, nevermind</button>
     </span>
 </template>
 
 <script>
+    import VueTypes from 'vue-types';
+
     export default {
         data() {
             return {
                 confirming: false,
             };
+        },
+
+        props: {
+            caption: VueTypes.string.def('Delete'),
         },
 
         methods: {

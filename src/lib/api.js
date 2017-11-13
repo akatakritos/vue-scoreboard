@@ -29,7 +29,8 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ player, score }),
-        });
+        })
+        .then(validate);
     },
 
     addGame(game) {
@@ -45,7 +46,22 @@ export default {
     deleteGame(gameId) {
         return fetch('/api/games/' + gameId, {
             method: 'DELETE',
-        });
+        })
+        .then(validate);
+    },
+
+    deleteAllScores(gameId) {
+        return fetch(`/api/game/${gameId}/scores`, {
+            method: 'DELETE',
+        })
+        .then(validate);
+    },
+
+    deleteScore(scoreId) {
+        return fetch(`/api/score/${scoreId}`, {
+            method: 'DELETE',
+        })
+        .then(validate);
     },
 
 };

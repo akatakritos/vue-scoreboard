@@ -47,5 +47,6 @@ module.exports = {
         "no-multiple-empty-lines": "warn",
         "no-unused-vars": "warn",
         "padded-blocks": "warn",
+        "standard/object-curly-even-spacing": ["warn", "always"],
     }
 }
