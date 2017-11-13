@@ -5,7 +5,7 @@
                 <div class="form-group">
                     <label for="gameid">Choose a game</label>
                     <select id="gameid" class="form-control" @change="selectGame($event.target.value)">
-                        <option v-for="game in games" :value="game.gameId">{{ game.name }}</option>
+                        <option v-for="game in games" :value="game.gameId" :selected="game.gameId === currentGameId">{{ game.name }}</option>
                     </select>
                 </div>
             </div>
@@ -13,8 +13,8 @@
         <h1 v-if="currentGame">Showing high scores for {{ currentGame.name }}</h1>
         <scores-list :scores="scores" />
         <div class="vr_1">
-            <button class="btn btn-default" @click="previous">Previous</button>
-            <button class="btn btn-default" @click="next">Next</button>
+            <router-link :to="{ name: 'scoreboard', query: { page: this.currentPage - 1, gameId: this.currentGameId }}" class="btn btn-default" v-show="currentPage > 1">Previous</router-link>
+            <router-link :to="{ name: 'scoreboard', query: { page: this.currentPage + 1, gameId: this.currentGameId }}" class="btn btn-default" v-show="mightBeMoreScores">Next</router-link>
         </div>
     </div>
 </template>
@@ -28,8 +28,6 @@
             return {
                 scores: [],
                 games: [],
-                currentGame: null,
-                currentPage: this.$route.query.page || 1,
             };
         },
 
@@ -39,41 +37,18 @@
 
         async mounted() {
             this.games = await Api.getGames();
-
-            if (this.$route.query.gameId) {
-                const id = Number(this.$route.query.gameId);
-                this.currentGame = this.games.find(g => g.gameId === id);
-                this.load();
-            } else {
-                this.selectGame(this.games[0].gameId);
-            }
+            this.load();
         },
 
         methods: {
-            next() {
-                this.$router.replace({
-                    query: {
-                        gameId: this.currentGame.gameId,
-                        page: this.currentPage + 1
-                    }
-                });
-            },
-
-            previous() {
-                this.$router.replace({
-                    query: {
-                        gameId: this.currentGame.gameId,
-                        page: this.currentPage - 1
-                    }
-                });
-            },
 
             async load() {
-                if (!this.currentGame) {
+                if (!this.currentGameId) {
                     return;
                 }
 
-                this.scores = await Api.getScores(this.currentGame.gameId, this.currentPage);
+                this.scores = [];
+                this.scores = await Api.getScores(this.currentGameId, this.currentPage);
             },
 
             selectGame(gameId) {
@@ -82,19 +57,28 @@
         },
 
         watch: {
-            '$route.query.page': function() {
-                this.currentPage = Number(this.$route.query.page);
-                this.load();
-            },
-
-            '$route.query.gameId': function() {
-                const id = Number(this.$route.query.gameId);
-                this.currentGame = this.games.find(g => g.gameId === id);
+            '$route': function() {
                 this.load();
             }
         },
 
         computed: {
+            currentPage() {
+                return Number(this.$route.query.page) || 1;
+            },
+
+            currentGameId() {
+                const fallback = this.games.length ? this.games[0].gameId : null;
+                return Number(this.$route.query.gameId) || fallback;
+            },
+
+            currentGame() {
+                return this.games.find(g => g.gameId === this.currentGameId);
+            },
+
+            mightBeMoreScores() {
+                return this.scores.length === 10;
+            }
 
         },
     };
